@@ -18,7 +18,7 @@ window.onload = function() {
 	map.panTo([ 35.943560,136.188917 ]) // 鯖江駅
 	map.addIcon(35.943560,136.188917, "鯖江駅")
 	map.addIcon(35.944571, 136.185228,"HANA道場","icon-megane.png", 64)
-	map.addIcon(lat,ing,name,"icon-carparking,png",64,64)
+	map.addIcon(lat,ing,name,"icon-carparking.png",64,64)
 
 	// SPARQLクエリー
 	var query = `
@@ -39,6 +39,15 @@ window.onload = function() {
 			var name = item.name.value;
 			map.addIcon(lat, lng, name)
 		}
+		
+		var current = map.addIcon(0, 0, "現在地", "icon-walking.png", 64, 64)
+	navigator.geolocation.watchPosition(function(gpos) {
+		const pos = [ gpos.coords.latitude, gpos.coords.longitude ]
+		current.setLatLng(pos)
+		map.panTo(pos)
+	}, function() {
+		alert("現在位置に取得に失敗！")
+	})
 	});
 }
 
